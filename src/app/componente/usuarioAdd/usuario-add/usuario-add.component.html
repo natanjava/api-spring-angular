@@ -1,0 +1,158 @@
+<br>
+
+<h5 style="margin-left: 10px;">User Registration</h5>
+
+<br>
+
+<form style="margin-left: 10px; width: 1200px;" #formValidate="ngForm">
+      
+  <div class="row" >
+    <div class="col-md-1 form-group ">
+      <label for="id">ID</label>
+      <input type="text" [(ngModel)]="usuario.id" class="form-control" id="id" readonly="true" name="id" autocomplete="false">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 form-group">
+      <label for="nome">Full name: </label>
+      <span style="color: red; font-size: 23px;" *ngIf="nomeValidate.invalid"> *</span>
+      <input type="text" [(ngModel)]="usuario.nome" #nomeValidate="ngModel" class="form-control" id="nome" required="true" name="nome" autocomplete="false">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 form-group">
+      <label for="login">E-mail or login</label>
+      <span style="color: red; font-size: 23px;" *ngIf="loginValidate.invalid"> *</span>
+      <input type="text" [(ngModel)]="usuario.login" #loginValidate="ngModel" class="form-control" id="login" name="login" required="true" autocomplete="false">
+    </div>
+
+
+    <div class="col-md-6 form-group">
+      <label for="senha">Password: </label>
+      <span style="color: red; font-size: 23px;" *ngIf="senhaValidate.invalid"> *</span>
+      <input type="password" [(ngModel)]="usuario.senha" #senhaValidate="ngModel" class="form-control" id="senha" name="senha" required="true" autocomplete="false">
+    </div>
+
+  </div>
+  
+
+  <!-- Date of Birth : old implementation 
+    <div class="row">
+      <div class="col-md-3 form-group">
+        <label for="dataNascimento">Date of birth</label>
+        <span style="color: red; font-size: 23px;" *ngIf="dataNascimentoValidate.invalid"> *</span>
+        
+        <input
+        name="dataNascimento"
+        class="form-control"
+        placeholder="dd/mm/yyyy"
+        [(ngModel)]="usuario.dataNascimento"
+        id="dataNascimento"
+        required               
+        />
+      </div>
+    </div>
+    -->
+  
+
+
+  <!--  Date of Birth : new implementation    -->
+  <div class="row">
+      <div class="col-md-3 form-group">
+        <label for="dataNascimento">Date of birth</label>
+        <span style="color: red; font-size: 23px;"> *</span>
+        <div class="input-group">
+          <input name="dataNascimento" type="text" class="form-control" placeholder="dd/mm/yyyy"
+              ngbDatepicker #dataNascimento="ngbDatepicker" [(ngModel)] = "usuario.dataNascimento"
+              id="dataNascimento" required="true">
+          <div class="input-group-append">
+            <button class="btn btn-primary" (click)="dataNascimento.toggle()" type="button"
+            style="height: 40px;"></button>
+          </div>
+        </div>
+      </div> 
+
+      <div class="col-md-3 form-group">
+        <label for="profissao">Occupation</label>
+        <span style="color: red; font-size: 23px;" *ngIf="profissaoValidate.invalid"> *</span>
+        <select [(ngModel)]="usuario.profissao.id" id="profissao" name="profissao"
+                #profissaoValidate="ngModel" class="form-control" required="true">
+          <option  *ngFor="let p of profissoes" [ngValue]="p.id">{{p.descricao}}</option>>
+        </select>
+      </div>
+
+      <!--Wage, not obrigatory Fiel at the Page Form (without ngIf)  
+          Professor using ngx-currency: problems with ngx and my Angular Version
+      <div class="col-md-3 form-group">        
+        <label for="salario">Salario</label>
+        <span style="color: red; font-size: 23px;" > *</span>
+        <input [(ngModel)]="usuario.salario" id="salario" name="salario" class="form-control"
+             currencyMask [options]="{prefix : '€', thousands : '.', decimal : ','}">
+      </div>
+      -->
+
+      <!--Wage - NATAN using Directive, working good  -->
+      <div class="col-md-3 form-group">        
+        <label for="salario">Wage €</label>
+        <span style="color: blue; font-size: 23px;" > *</span>
+        <input [(ngModel)]="usuario.salario" id="salario" name="salario"
+        class="form-control" appNumbersOnly>
+      </div>
+      
+
+
+
+  </div>
+  
+  
+
+  <br><br>
+
+  <div class="card text-center">
+    <div class="card-header">PHONE(s)</div>
+
+    <div class="card-body" style="padding-left: 10px;">
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <input type="text" mask="000 000-0000" class="form-control" [(ngModel)]="telefone.numero" id="numero" name="numero">
+        </div>
+
+        <div class="col-md-1 form-group">
+          <button (click)="addFone()" class="btn btn-primary">Add</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+  <table class="table">
+    <tbody>
+      <tr *ngFor="let fone of usuario.telefones; let i= index">
+        <td>{{fone.id}}</td>
+        <td>{{fone.numero | mask:'000 000-0000'}}</td>
+        <td> <button class="btn btn-danger" (click)="deletarTelefone(fone.id, i)">Delete</button></td>  
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <br>
+
+  <div class="row">
+    <div class="col-md-6 form-group">
+        <button type="button" class="btn btn-primary" [routerLink]="['/userList']" routerLinkActive="router-link-active" >Go back</button>
+        <button type="button" class="btn btn-primary" (click)="novo()"  style="margin-left: 10px;">New</button>
+        <button type="button" class="btn btn-primary" [disabled]="formValidate.invalid" (click)="salvarUser()" style="margin-left: 10px;">Save</button>
+    </div>
+  </div>
+
+</form>  
+
+<br><br><br>
+

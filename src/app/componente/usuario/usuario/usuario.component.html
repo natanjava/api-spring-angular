@@ -1,0 +1,64 @@
+
+<br/>
+
+<form >
+    <div class="input-group mb-3" style="width: 500px;">
+        <input type="text" class="form-control" id="nome" name="nome" [(ngModel)]="nome" placeholder="Search by name" >
+        <button class="btn btn-outline-secondary"  (click)="consultarUser()" type="button" >Search</button>
+        <button class="btn btn-outline-secondary"  (click)="ngOnInit()" type="button" >List Users</button>
+        <button class="btn btn-outline-secondary"  [routerLink]="['/usuarioAdd']" routerLinkActive="router-link-active" (click)="ngOnInit()" type="button" >New User</button>
+        <button (click)="imprimeRelatorio()" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#PdfModal"> PDF </button> 
+    </div>
+    <br/>
+    <br/>
+</form>
+
+
+
+<table class="table">
+    <thead class="thread-dark">
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Login</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Editar</th>
+
+    </thead>
+
+    <tbody> 
+        
+        <tr *ngFor="let student of students | paginate: { itemsPerPage:5, currentPage: p, totalItems: total }; let i = index">
+             <td>{{student.id}}</td>   
+             <td>{{student.nome}}</td> 
+             <td>{{student.login}}</td>
+             <td><button class="btn btn-danger" (click)="deletarUsuario(student.id, i)">Delete</button></td> 
+             <td><button class="btn btn-warning" [routerLink]="['/usuarioAdd', student.id]" routerLinkActive="router-link-active" >Editar</button></td> 
+        </tr>
+
+    </tbody>
+
+</table>
+
+<div class="text-center">
+    <pagination-controls (pageChange)="(p = $event);" responsive="true"></pagination-controls>
+    
+</div>
+
+
+<!-- Modal : PDF Exibition-->
+<div class="modal fade" id="PdfModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 90%; min-height: 90%; height: 90%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <iframe id width="100%" height="500" frameborder="0" allowtransparency="true"> </iframe>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
