@@ -1,1 +1,42 @@
-<p>Project Angular 8/9 with Spring Boot Rest Api</p>
+<div style="margin-left: 8%; margin-top: 3%; width: 1000px; text-align: justify;" >
+    
+    <h4>API REST with Spring Boot MVC + Angular 8/9 + JWT Authentication</h4>
+    <br>
+    <p>This system was developed in Angular and accesses an API developed in Java with 
+    Spring Boot, MVC design pattern and Spring Security (Jason Web Token Authentication). 
+    Requests are sent to the API to save and retrieve data written to the database. 
+    API and database are on the same server (AWS), front end is on another server. </p>
+
+    <p>It is possible to create records and associated telephone numbers, search for records
+    saved in the system and generate a comparative graph. Each record has a password that 
+    allows you to log into the system. A service was created to recover the password when 
+    logging into the system. This password is sent by email, however it is necessary to 
+    assign a valid email address when creating a new record. The hosting server has 
+    limitations and unfortunately the WAR FILE exceeded the maximum accepted limit by the 
+    server and therefore a feature was removed from the system.</p>
+
+    <p>This way it is not possible to generate PDF, the jasper reports libraries caused a 
+    significant increase in the size of the war file. Configurations to increase this limit 
+    have already been tested, and the solution to this problem is being analyzed daily so 
+    that this feature works again soon, as in tests carried out locally, where this 
+    limitation does not occur. As well as improvements in the code are constantly being 
+    analyzed so that problems do not occur when using the application.</p>
+
+    <p>Other technical information: Spring Tool Suite, VS Code, Postgres 15.4, 
+    Bootstrap 5.0, EC2 Amanzon Tecnology, Putty, File Zilla, DBeaver.</p>
+
+    <p>
+        <a href="https://github.com/natanjava/demospringrestapi">API on GitHub.</a>
+        Branch tested Locally: master. Branch used in deploy: master-deploy.
+        <br><a href="https://github.com/natanjava/api-spring-angular">Angular Project on GitHub</a>
+    </p>
+
+    
+
+        
+
+    
+
+ 
+</div>
+

@@ -1,22 +1,22 @@
 
-<br/>
-
-<form >
+<div style="margin-left: 2%; margin-right: 2%; margin-top: 3%">
+  
+  <form >
     <div class="input-group mb-3" style="width: 500px;">
         <input type="text" class="form-control" id="nome" name="nome" [(ngModel)]="nome" placeholder="Search by name" >
         <button class="btn btn-outline-secondary"  (click)="consultarUser()" type="button" >Search</button>
         <button class="btn btn-outline-secondary"  (click)="ngOnInit()" type="button" >List Users</button>
         <button class="btn btn-outline-secondary"  [routerLink]="['/usuarioAdd']" routerLinkActive="router-link-active" (click)="ngOnInit()" type="button" >New User</button>
         <!-- this button call modal, to generate PDF --
-        <button (click)="imprimeRelatorio()" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#PdfModal"> PDF </button> 
+          <button (click)="imprimeRelatorio()" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#PdfModal"> PDF </button> 
         -->
-    </div>
+      </div>
     <br/>
     <br/>
-</form>
+  </form>
 
-
-
+  
+  
 <table class="table">
     <thead class="thread-dark">
         <th scope="col">ID</th>
@@ -24,27 +24,27 @@
         <th scope="col">Login</th>
         <th scope="col">Delete</th>
         <th scope="col">Editar</th>
-    </thead>
-
-    <tbody>         
+      </thead>
+      
+      <tbody>         
         <tr *ngFor="let student of students | paginate: { itemsPerPage:5, currentPage: p, totalItems: total }; let i = index">
              <td>{{student.id}}</td>   
              <td>{{student.nome}}</td> 
              <td>{{student.login}}</td>
              <td><button class="btn btn-danger" (click)="deletarUsuario(student.id, i)">Delete</button></td> 
              <td><button class="btn btn-warning" [routerLink]="['/usuarioAdd', student.id]" routerLinkActive="router-link-active" >Update</button></td> 
-        </tr>
-    </tbody>
-</table>
-
-<div class="text-center">
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="text-center">
     <pagination-controls (pageChange)="(p = $event);" responsive="true"></pagination-controls>
     
-</div>
-
-
-<!-- Modal : PDF Exibition-->
-<div class="modal fade" id="PdfModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  </div>
+  
+  
+  <!-- Modal : PDF Exibition-->
+  <div class="modal fade" id="PdfModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="min-width: 90%; min-height: 90%; height: 90%;">
       <div class="modal-content">
         <div class="modal-header">
@@ -59,4 +59,6 @@
         </div>
       </div>
     </div>
+  </div>
+
 </div>

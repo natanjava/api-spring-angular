@@ -24,6 +24,7 @@ export class UsuarioComponent implements OnInit {
         this.students = data;    //alterado devido implementação
       //this.students = data.content;
       //this.total = data.totalElements;
+      
     });    
   }
 
