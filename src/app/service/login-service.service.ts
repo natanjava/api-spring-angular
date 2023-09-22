@@ -36,7 +36,7 @@ export class LoginServiceService {
       var token = JSON.parse(JSON.stringify(data)).Authorization.split(' ')[1];
       localStorage.setItem("token", token);
 
-      console.info("Toke: "+ localStorage.getItem("token"));
+      //console.info("Toke: "+ localStorage.getItem("token")); // print TOKEN on Page Code
       this.router.navigate(['home']);
 
     },

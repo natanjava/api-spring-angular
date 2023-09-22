@@ -11,9 +11,11 @@ import { UsuarioService } from 'src/app/service/usuario.service';
 export class UsuarioComponent implements OnInit {
 
   students : Array<User[]>;
+  
   nome: String;
   total: Number;
   p: number = 1;
+
 
   constructor(private usuarioService : UsuarioService) { }
 
@@ -26,21 +28,25 @@ export class UsuarioComponent implements OnInit {
   }
 
   deletarUsuario(id:Number, i){
-    if(confirm('Do you really want to remove?')){
+    
+    if(id != 1 && confirm('Do you really want to remove?')){
       this.usuarioService.deletarUsuario(id).subscribe(data => {
-        console.log("Retorno do metodo delete: " +data); // vai retornar Ok, o retorno do metodo na API
+        // console.log("Return of Delete Method: " +data);  // return ok
         
-        // recarrega a lista depois que deleta; codigo inutil apos Paginacao
-        /* 
+        
+        /* reload list after deleting; useless code for Pagination
         this.usuarioService.getStudentList().subscribe(data => {
           this.students = data;  
         }); */ 
         
-        this.students.splice(i, 1); // remove da tela
-
-
+        this.students.splice(i, 1); // remove from list
+        location.reload(); // fixes false positioning of records in the list
 
       });
+    }
+    else {
+      window.alert('Standard Admin can´t be removed.');
+      return;
     }
   }
 
@@ -74,7 +80,7 @@ export class UsuarioComponent implements OnInit {
   }
 
     
-  /*Paginação por demanda*/
+  /*Lazy Pagination; implementations coming soon*/
   /*
   carregarPagina(pagina) {
     
@@ -99,8 +105,6 @@ export class UsuarioComponent implements OnInit {
  imprimeRelatorio() {
    return this.usuarioService.downloadPdfRelatorio();
  }
-
-
 }
 
 

@@ -15,7 +15,7 @@
   
     <div class="mb-3">
       <label for="senha" class="form-label">Password</label>
-      <input type="password" #senha="ngModel" [(ngModel)] = "usuario.senha" name="senha" class="form-control" id="senha"  required>
+      <input type="password" #senha="ngModel" [(ngModel)] = "usuario.senha" name="senha" class="form-control" id="senha" required>
     </div>
     <div *ngIf="senha.invalid" class="alert alert-danger">
       Password muss be informed

@@ -82,6 +82,8 @@ export class UsuarioAddComponent implements OnInit {
   usuario = new User();
   telefone = new Telefone();
   profissoes = Array<Profissao>();
+  students : Array<User[]>;
+  totalList: number;
 
 
   constructor(private routeActivated: ActivatedRoute, private userService: UsuarioService) { 
@@ -93,12 +95,23 @@ export class UsuarioAddComponent implements OnInit {
     
     this.userService.getProfissaoList().subscribe( data => {
       this.profissoes = data;
-      //console.log(this.profissoes);
+      //console.log(this.profissoes);      
     });
+
+    this.userService.getStudentList().subscribe(data => {
+      this.students = data;    
+      //this.students = data.content;
+      this.totalList = this.students.length;
+      
+  }); 
+
+
+    
+
     
     
     if (id != null) {
-      console.log('Valor sendo editado: ' +id);
+      //console.log('Valor sendo editado: ' +id);
       this.userService.getStudent(id).subscribe( data => {
         /*o metodo no Back-End recuperava dados do DTO, agora não mais */
         this.usuario = data;
@@ -113,6 +126,7 @@ export class UsuarioAddComponent implements OnInit {
   }
 
   salvarUser(){
+    
     //console.info(this.usuario);
     /*
     if (!this.validarFormatoData(this.usuario.dataNascimento.toString())) {
@@ -121,17 +135,38 @@ export class UsuarioAddComponent implements OnInit {
     }    
     */
    
-    
-    if (this.usuario.id != null && this.usuario.id.toString().trim() != null) { /*Atualiza*/
+    if (this.usuario.id == 1) {
+      window.alert('Standard Admin can´t be updated.');
+      return;
+    }
+        
+    if (this.usuario.id != null && this.usuario.id.toString().trim() != null) { /*Update*/
+          
       this.userService.tualizarUsuario(this.usuario).subscribe( data => {
-        console.info("User atualizado :" +data);
+        //console.info("User atualizado :" +data);
+        window.alert('User sucessfully updated.');
         this.novo();
-      });
-    } else {
-      this.userService.salvarUsuario(this.usuario).subscribe (data => {  /* Salva novo usuario*/
-        console.info("Salvou novo usuario: " +data);
-        this.novo();
-      }); 
+      });     
+    } 
+    else {
+
+      if (this.totalList < 21 ) {
+        
+        this.userService.salvarUsuario(this.usuario).subscribe (data => {  /* Persist*/
+          //console.info("Salvou novo usuario: " +data);
+          window.alert('New User sucessfully saved.');
+          this.novo();
+        }); 
+      
+      }
+
+      else {
+        window.alert('For technical reasons, this "Test-System" \nwas designed to only support 21 records.' 
+          + '\nIf you want to add new Registers please \ndelete some of them.');
+        return;
+      }
+    
+    
     }
   }
 
@@ -147,21 +182,30 @@ export class UsuarioAddComponent implements OnInit {
       return;
     }
 
-    if (id !== null && confirm("Deseja remover?")) {
+    if (id !== null && confirm("Do you really want do remove the Phone?")) {
       this.userService.removerTelefone(id).subscribe(data => {
-        this.usuario.telefones.splice(i, 1);
+        this.usuario.telefones.splice(i, 1);        
       });
     }
   }
 
-  addFone(){
-    if (this.usuario.telefones === undefined ) {
-      this.usuario.telefones = new Array<Telefone>();
+  addFone() {
+    if (!this.usuario.telefones) {
+      this.usuario.telefones = [];
     }
 
-    this.usuario.telefones.push(this.telefone);
-    this.telefone = new  Telefone();
-
+    if (this.usuario.telefones.length >= 2) {
+      window.alert('Maximum number of phones: 2');
+      return; 
+    }
+  
+    if (this.telefone.numero) {
+      this.usuario.telefones.push(this.telefone);
+      this.telefone = new Telefone();
+    } else {
+      // Exiba um alerta JavaScript
+      window.alert('Invalid nunber.');
+    }
   }
 
   validarFormatoData(data: string): boolean {
