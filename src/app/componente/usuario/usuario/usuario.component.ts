@@ -18,19 +18,25 @@ export class UsuarioComponent implements OnInit {
 
 
   constructor(private usuarioService : UsuarioService) { }
+  
 
   ngOnInit() {
     this.usuarioService.getStudentList().subscribe(data => {
         this.students = data;    //alterado devido implementação
       //this.students = data.content;
-      //this.total = data.totalElements;
-      
+      //this.total = data.totalElements; 
+      this.nome = '';    
     });    
+    
   }
 
   deletarUsuario(id:Number, i){
-    
-    if(id != 1 && confirm('Do you really want to remove?')){
+    if(id == 1){
+      window.alert('Standard Admin can´t be removed.');
+      return;
+    }
+
+    if(confirm('Do you really want to remove?')){
       this.usuarioService.deletarUsuario(id).subscribe(data => {
         // console.log("Return of Delete Method: " +data);  // return ok
         
@@ -41,14 +47,13 @@ export class UsuarioComponent implements OnInit {
         }); */ 
         
         this.students.splice(i, 1); // remove from list
-        location.reload(); // fixes false positioning of records in the list
+        this.usuarioService.getStudentList().subscribe(data => {
+          this.students = data;
+        });
 
       });
     }
-    else {
-      window.alert('Standard Admin can´t be removed.');
-      return;
-    }
+    
   }
 
   consultarUser() {
